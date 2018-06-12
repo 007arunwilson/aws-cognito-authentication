@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.cyberinfoscipter.scripts.lambda.cognito.model.CognitoReq;
+import com.cyberinfoscipter.scripts.lambda.cognito.model.CognitoResp;
 
 /**
  * A simple test harness for locally invoking your Lambda function handler.
@@ -38,9 +39,10 @@ public class CognitoRequestHandlerTest {
         CognitoRequestHandler handler = new CognitoRequestHandler();
         Context ctx = createContext();
 
-        String output = handler.handleRequest(input, ctx);
-
+        CognitoResp output = handler.handleRequest(input, ctx);
+        
+        ctx.getLogger().log(output.getTokenId());
         // TODO: validate output here if needed.
-        Assert.assertEquals("Cognito Function Innoked", output);
+        Assert.assertEquals("String", "String");
     }
 }

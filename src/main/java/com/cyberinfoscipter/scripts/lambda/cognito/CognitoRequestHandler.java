@@ -19,7 +19,6 @@ public class CognitoRequestHandler implements RequestHandler<CognitoReq, Cognito
 	
 	AmazonCognitoIdentityAsyncClient aCIC;
 	GetOpenIdTokenForDeveloperIdentityRequest tokenRequest;
-	CognitoResp resp;
     @Override
     public CognitoResp handleRequest(CognitoReq req, Context context) {
     	
@@ -46,13 +45,15 @@ public class CognitoRequestHandler implements RequestHandler<CognitoReq, Cognito
          
          map.put(req.getDeveloperProviderName(), req.getUserId()); // Developer provider name & backend User Id 
          
-         tokenRequest.setLogins(map); tokenRequest.setTokenDuration(1000l);
+         tokenRequest.setLogins(map);
+         tokenRequest.setTokenDuration(1000l);
          
          GetOpenIdTokenForDeveloperIdentityResult result 
          = client.getOpenIdTokenForDeveloperIdentity(tokenRequest);
          String identityId = result.getIdentityId();
          String tokenId = result.getToken();
          
+     	 CognitoResp resp = new CognitoResp();
          resp.setIdentityPoolId(identityPoolId);
          resp.setIdentityId(identityId);
          resp.setTokenId(tokenId);
