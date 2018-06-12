@@ -13,14 +13,15 @@ import com.amazonaws.services.cognitoidentity.model.GetOpenIdTokenForDeveloperId
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.cyberinfoscipter.scripts.lambda.cognito.model.CognitoReq;
+import com.cyberinfoscipter.scripts.lambda.cognito.model.CognitoResp;;
 
-public class CognitoRequestHandler implements RequestHandler<CognitoReq, String> {
+public class CognitoRequestHandler implements RequestHandler<CognitoReq, CognitoResp> {
 	
 	AmazonCognitoIdentityAsyncClient aCIC;
 	GetOpenIdTokenForDeveloperIdentityRequest tokenRequest;
-
+	CognitoResp resp;
     @Override
-    public String handleRequest(CognitoReq req, Context context) {
+    public CognitoResp handleRequest(CognitoReq req, Context context) {
     	
     	String envType = System.getenv("ENV_TYPE");
     	
@@ -49,14 +50,15 @@ public class CognitoRequestHandler implements RequestHandler<CognitoReq, String>
          
          GetOpenIdTokenForDeveloperIdentityResult result 
          = client.getOpenIdTokenForDeveloperIdentity(tokenRequest);
-      String identityId = result.getIdentityId();
-      String token = result.getToken();
-      
-      context.getLogger().log("Cognito Token Request IdentityID generated : " + identityId);
-      context.getLogger().log("Cognito Token Request token generated : " + token);
-	
+         String identityId = result.getIdentityId();
+         String tokenId = result.getToken();
+         
+         resp.setIdentityPoolId(identityPoolId);
+         resp.setIdentityId(identityId);
+         resp.setTokenId(tokenId);
+         
         // TODO: implement your handler
-        return "Cognito Function Innoked";
+        return resp;
     }
 
 }
