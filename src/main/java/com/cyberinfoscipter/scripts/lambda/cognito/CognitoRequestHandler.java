@@ -12,14 +12,15 @@ import com.amazonaws.services.cognitoidentity.model.GetOpenIdTokenForDeveloperId
 import com.amazonaws.services.cognitoidentity.model.GetOpenIdTokenForDeveloperIdentityResult;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.cyberinfoscipter.scripts.lambda.cognito.model.CognitoReq;
 
-public class CognitoRequestHandler implements RequestHandler<Object, String> {
+public class CognitoRequestHandler implements RequestHandler<CognitoReq, String> {
 	
 	AmazonCognitoIdentityAsyncClient aCIC;
 	GetOpenIdTokenForDeveloperIdentityRequest tokenRequest;
 
     @Override
-    public String handleRequest(Object input, Context context) {
+    public String handleRequest(CognitoReq req, Context context) {
     	
     	String envType = System.getenv("ENV_TYPE");
     	
@@ -42,7 +43,7 @@ public class CognitoRequestHandler implements RequestHandler<Object, String> {
          tokenRequest.setIdentityPoolId(identityPoolId);
          HashMap<String, String> map = new HashMap<String, String>();
          
-         map.put("cognito", "64"); // Developer provider name & backend User Id 
+         map.put(req.getDeveloperProviderName(), req.getUserId()); // Developer provider name & backend User Id 
          
          tokenRequest.setLogins(map); tokenRequest.setTokenDuration(1000l);
          

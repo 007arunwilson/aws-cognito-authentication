@@ -7,18 +7,21 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.amazonaws.services.lambda.runtime.Context;
+import com.cyberinfoscipter.scripts.lambda.cognito.model.CognitoReq;
 
 /**
  * A simple test harness for locally invoking your Lambda function handler.
  */
 public class CognitoRequestHandlerTest {
 
-    private static Object input;
+    private static CognitoReq input;
 
     @BeforeClass
     public static void createInput() throws IOException {
         // TODO: set up your sample input object here.
-        input = new Object();
+        input = new CognitoReq();
+        input.setDeveloperProviderName("cognito");
+        input.setUserId("64");
     }
 
     private Context createContext() {
