@@ -18,7 +18,7 @@ public class CognitoRequestHandlerTest {
     @BeforeClass
     public static void createInput() throws IOException {
         // TODO: set up your sample input object here.
-        input = "{}";
+        input = new Object();
     }
 
     private Context createContext() {
@@ -38,6 +38,6 @@ public class CognitoRequestHandlerTest {
         String output = handler.handleRequest(input, ctx);
 
         // TODO: validate output here if needed.
-        Assert.assertEquals("Hello from Lambda!", output);
+        Assert.assertEquals("Cognito Function Innoked", output);
     }
 }
